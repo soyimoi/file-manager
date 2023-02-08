@@ -1,9 +1,5 @@
 from fileinput import filename
 import os
-import sys
-import logging
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
 import shutil
 import pathlib
 
@@ -21,16 +17,10 @@ scr_dir = '/Your directory here/'
 
 # Most common file extensions 
 
-img_ext = ['.JPEG', '.JPG', '.PNG', '.HEIC','.AVIF', '.SVG', '.WEBP',
-            '.jpeg','.jpg', '.png', '.heic','.avif', '.svg', '.webp']
-
-vid_ext = ['.MOV', '.MP4', '.AVI',
-            '.mov', '.mp4', '.avi']
-
-gif_ext = ['.GIF', '.gif']
-
-doc_ext = ['.CSV', '.DOC', '.DOCX', '.PDF', '.XLS', '.XLSX', '.PPT', '.PPTX', '.TXT', '.ODP', '.EPUB', 
-            '.csv', '.doc', '.docx', '.pdf', '.xls', '.xlsx', '.ppt', '.pptx', '.txt', '.odp', '.epub']
+img_ext = ['.JPEG', '.JPG', '.PNG', '.HEIC','.AVIF', '.SVG', '.WEBP']
+vid_ext = ['.MOV', '.MP4', '.AVI']
+gif_ext = ['.GIF']
+doc_ext = ['.CSV', '.DOC', '.DOCX', '.PDF', '.XLS', '.XLSX', '.PPT', '.PPTX', '.TXT', '.ODP', '.EPUB']
 
 
 # Screenshots are saved as PNG images but I wanted to redirect them to a specific folder 
@@ -46,24 +36,25 @@ with os.scandir(src) as files:
         
         # Some extensions look like .xxx others like .xxxx 
         # By using the pathlib library you can get the file extension easier
+        
         ext = pathlib.Path(file.name).suffix
         scr_img = file.name[:10]
         
 
         try:
-            if ext in img_ext and scr_img not in scr_ext:
+            if ext.lower() in img_ext or ext.upper() in img_ext and scr_img not in scr_ext:
                 shutil.move(file, img_dir)
                 print('File ' + file.name + ' moved to Image Directory.')
             
-            elif ext in vid_ext:
+            elif ext.lower() in vid_ext or ext.upper() in vid_ext:
                 shutil.move(file, vid_dir)
                 print('File ' + file.name + ' moved to Video Directory.')
             
-            elif ext in gif_ext:
+            elif ext.lower() in gif_ext or ext.upper() in gif_ext:
                 shutil.move(file, gif_dir) 
                 print('File ' + file.name + ' moved to GIF Directory.')
             
-            elif ext in doc_ext:
+            elif ext.lower() in doc_ext or ext.upper() in doc_ext:
                 shutil.move(file, doc_dir) 
                 print('File ' + file.name + ' moved to Document Directory.')
 
