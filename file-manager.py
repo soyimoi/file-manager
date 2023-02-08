@@ -64,3 +64,8 @@ with os.scandir(src) as files:
         
         except Exception as exception: 
             print('File ' + file.name + ' could not be moved.')
+            
+            
+            
+            
+            
